@@ -86,9 +86,9 @@ class Simulacao:
         if tipo in op_dict.keys():
             self.__operacoes.append(op_dict[tipo](nome, self.__pacotetermodinamico))
 
-    def Add_Reciclo(self, nome):
-        self.__operacoes.append(Reciclo(nome, self.__pacotetermodinamico))
-        self.Calc_Fluxograma()
+    #def Add_Reciclo(self, nome):
+    #    self.__operacoes.append(Reciclo(nome, self.__pacotetermodinamico))
+    #    self.Calc_Fluxograma()
 
     def Acopla_Corrente(self, nome_corrente, nome_operacao, port):
         if nome_operacao in self.Operacoes.keys():
@@ -100,13 +100,8 @@ class Simulacao:
         self.Calc_Fluxograma()
 
     def Calc_Fluxograma(self):
-        reciclos = [op for op in self.__operacoes if isinstance(op, Reciclo)]
-        i = 1
-        while any([all([r.Status == False, r.Checa_Atributos()]) for r in reciclos]) and i <= 100:
-            for op in self.__operacoes:
-                print(op.Tag)
-                op.Calc_Op()
-            i += 1
+        for op in self.__operacoes:
+            op.Calc_Op()
 
     def Print_Correntes(self):
         return pd.DataFrame({c.Tag: {'Temperatura (K)': c.T,
